@@ -21,7 +21,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host 'Lab already running: http://127.0.0.1:18080/cgi-bin/luci/admin/services/openclash/modern'
     exit 0
 }
-$prepare = '/mnt/c/Users/19070/SynologyDrive/NAS-PC-VPS-RT/router-proxy/tools/lab_prepare.py'
+$prepare = (& wsl -d Debian --exec wslpath -a (Join-Path $PSScriptRoot 'lab_prepare.py')).Trim()
 & wsl -d Debian -u root --exec systemd-run --unit=openclash-lab-prepare --collect --wait --pipe -p CPUQuota=100% -p MemoryMax=256M -p Nice=15 -- python3 $prepare
 if ($LASTEXITCODE) { throw 'VM preparation failed' }
 Write-Host '2 vCPU / 1024MB guest; VM host CPU <=1.5 logical cores, memory <=1408MB, low priority.'

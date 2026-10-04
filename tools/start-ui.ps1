@@ -12,7 +12,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host '无需登录的本机界面：http://127.0.0.1:18081/'
     exit 0
 }
-$bridge = '/mnt/c/Users/19070/SynologyDrive/NAS-PC-VPS-RT/router-proxy/tools/lab_ui.py'
+$bridge = (& wsl -d Debian --exec wslpath -a (Join-Path $PSScriptRoot 'lab_ui.py')).Trim()
 & wsl -d Debian -u root --exec systemd-run --unit=$unit --collect -p CPUQuota=50% -p MemoryMax=256M -p MemorySwapMax=0 -p Nice=15 -- python3 $bridge
 if ($LASTEXITCODE) { throw '本机界面启动失败' }
 Write-Host '无需登录的本机界面：http://127.0.0.1:18081/'

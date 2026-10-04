@@ -1,6 +1,6 @@
 # 安装、升级与实验恢复
 
-当前产物在 `artifacts/packages/`，文件和 SHA256 以 `manifest.json` 为准。这里的实际安装和升级只在 localhost OpenWrt 24.10.6 x86/64 实验机测试；本指南不会自动改动生产设备。
+当前产物在 `artifacts/packages/`，文件和 SHA256 以 `manifest.json` 为准。安装包已在 localhost OpenWrt 24.10.6 和现有 iStoreOS 24.10.6 x86/64 路由器验证；生产迁移步骤见 router-deployment.md。
 
 ## 三个独立包
 

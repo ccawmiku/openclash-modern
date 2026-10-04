@@ -150,9 +150,10 @@ function M.snapshot(previous_health)
  end
  local health=previous_health or {checked_at=0};if cfg.dns_enabled=='1' and os.time()-health.checked_at>=60 then health={checked_at=os.time(),available=M.dns_probe(tonumber(cfg.dns_port) or 53535)}end
  local firewall=guard.firewall_valid();local instances=process_state();local dns_running=instances.dns and instances.dns.running or false
+ local dns_route=readjson(root..'dns-route.json')
  local offload=uci:get('firewall','@defaults[0]','flow_offloading')=='1' or uci:get('firewall','@defaults[0]','flow_offloading_hw')=='1'
  table.sort(out,function(a,b)return (a.wan_plain_dns and 4 or a.watched_direct and 3 or a.wan_sni_visible and 2 or 0)>(b.wan_plain_dns and 4 or b.watched_direct and 3 or b.wan_sni_visible and 2 or 0)end)
- return {timestamp=os.time(),config=cfg,monitor={enabled=cfg.monitor_enabled=='1',capture_fresh=fresh or false,conntrack_available=ct~=nil,conntrack_capacity_limited=count>16384,offload_enabled=offload,capacity=capture.capacity or 2048,dropped_packets=capture.dropped_packets or 0,evicted_flows=capture.evicted_flows or 0,fragmented_packets=capture.fragmented_packets or 0,core=core_state,classification_source='mihomo-rule-and-destinationGeoIP'},dns={enabled=cfg.dns_enabled=='1',firewall_installed=firewall,resolver_running=dns_running,health=health,fail_closed=firewall},metrics=metrics,dashboard=dashboard,flows=out},health
+ return {timestamp=os.time(),config=cfg,monitor={enabled=cfg.monitor_enabled=='1',capture_fresh=fresh or false,conntrack_available=ct~=nil,conntrack_capacity_limited=count>16384,offload_enabled=offload,capacity=capture.capacity or 2048,dropped_packets=capture.dropped_packets or 0,evicted_flows=capture.evicted_flows or 0,fragmented_packets=capture.fragmented_packets or 0,core=core_state,classification_source='mihomo-rule-and-destinationGeoIP'},dns={route=dns_route,enabled=cfg.dns_enabled=='1',firewall_installed=firewall,resolver_running=dns_running,health=health,fail_closed=firewall},metrics=metrics,dashboard=dashboard,flows=out},health
 end
 if arg and arg[0] and arg[0]:match('/monitor.lua$')then
  math.randomseed(os.time());local health

@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 PKG_NAME:=router-node-health
 PKG_VERSION:=0.1.0
-PKG_RELEASE:=1
+PKG_RELEASE:=3
 PKG_LICENSE:=GPL-3.0-or-later
 include $(INCLUDE_DIR)/package.mk
 define Package/router-node-health

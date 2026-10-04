@@ -54,7 +54,7 @@ function M.route_port()
  local socket=require('nixio').socket('inet','dgram');if not socket then return fallback end
  socket:setopt('socket','rcvtimeo',1)
  local id=math.random(1,65535);local function word(n)return string.char(math.floor(n/256)%256,n%256)end
- local name='rp-route-'..id
+ local name='router-privacy-health'
  local query=word(id)..'\1\0\0\1\0\0\0\0\0\0'..string.char(#name)..name..'\7example\3com\0\0\1\0\1'
  socket:connect('127.0.0.1',port);socket:send(query);local answer=socket:recv(4096);socket:close()
  if answer and #answer>=12 and answer:sub(1,2)==word(id) and answer:byte(3)>=128 and (answer:byte(4)%16==0 or answer:byte(4)%16==3) then return 53 end

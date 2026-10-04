@@ -1,4 +1,4 @@
-param([ValidateSet('install','build','dev','preview','test','browser-install','browser-test','help-audit','migration-test','extended-test','ui-test','record-test','privacy-test')][string]$Task='build')
+param([ValidateSet('install','build','dev','preview','test','browser-install','browser-test','router-test','help-audit','migration-test','extended-test','ui-test','record-test','privacy-test')][string]$Task='build')
 $ErrorActionPreference = 'Stop'
 $env:NODE_OPTIONS = '--max-old-space-size=384'
 $env:RAYON_NUM_THREADS = '2'
@@ -48,6 +48,7 @@ $command = switch ($Task) {
   'install' { 'npm.cmd install --no-audit --no-fund' }
   'browser-install' { 'npx.cmd playwright install chromium' }
   'browser-test' { 'node tools/browser-test.mjs' }
+  'router-test' { 'node tools/router-browser-test.mjs' }
   'help-audit' { 'node tools/help-audit.mjs' }
   'migration-test' { 'node tools/migration-test.mjs' }
   'extended-test' { 'node tools/extended-test.mjs' }

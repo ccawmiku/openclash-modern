@@ -1,5 +1,19 @@
 -- Read existing CBI models, preserving original validators and write handlers.
 local M = {}
+local function native_load(model,args)
+ local http=require 'luci.http';local formvalue,redirect=http.formvalue,http.redirect
+ -- Older OpenClash models require an explicit profile context. Newer models
+ -- derive it internally; supplying the active profile preserves both versions.
+ http.formvalue=function(key,...)
+  local value=formvalue(key,...)
+  if key=='file' and (not value or value=='') then return require('luci.model.uci').cursor():get('openclash','config','config_path') end
+  return value
+ end
+ http.redirect=function()end
+ local ok,maps=pcall(require('luci.cbi').load,'openclash/'..model,unpack(args or {}))
+ http.formvalue,http.redirect=formvalue,redirect
+ return ok,maps
+end
 M.models = {
     settings = true, ['config-overwrite'] = true, ['config-subscribe'] = true,
     servers = true, ['custom-dns-edit'] = true, config = true, client = true, log = true,
@@ -23,10 +37,10 @@ function M.read(model, args)
     local http = require 'luci.http'
     local previous_write = http.write
     http.write = function() end -- Some upstream model constructors emit UI script.
-    local ok, maps = pcall(require('luci.cbi').load, 'openclash/' .. model, unpack(args or {}))
+    local ok, maps = native_load(model,args)
     http.write = previous_write
     if not ok then error(maps) end
-    local out = { model = model, maps = {}, unsupported = {}, templates = {}, context = {} }
+    local out = { model = model, maps = {}, unsupported = {}, templates = {}, context = {config_file=require('luci.model.uci').cursor():get('openclash','config','config_path')} }
     if model == 'settings' then
         local cursor = require('luci.model.uci').cursor()
         for _, key in ipairs({'core_version', 'release_branch', 'smart_enable', 'github_address_mod'}) do
@@ -224,7 +238,7 @@ function M.submit(model, args, validate_only)
     local target, attachment
     http.redirect = function(url) target = target or url end
     http.write = function() end
-    local ok, maps = pcall(require('luci.cbi').load, 'openclash/' .. model, unpack(args or {}))
+    local ok, maps = native_load(model,args)
     http.write = write
     local errors, states = {}, {}
     http.header = function(name, value)

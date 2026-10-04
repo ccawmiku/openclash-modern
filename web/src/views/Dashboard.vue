@@ -4,6 +4,7 @@ import { preview, request } from '../api.js'
 const props=defineProps({initialRoute:String})
 const configured = ref(localStorage.getItem('oc.dashboard.url') || ''), detected = ref(''), error = ref(''), generation = ref(0)
 const validURL = value => {
+  if(!value || !value.trim())return ''
   try { const u = new URL(value, location.origin); return ['http:','https:'].includes(u.protocol) && !u.username && !u.password && !(location.protocol==='https:' && u.protocol==='http:') ? u.href : '' } catch { return '' }
 }
 const address = computed(() => {const value=validURL(configured.value||detected.value);if(!value||!props.initialRoute)return value;const url=new URL(value);const query=url.hash.split('?')[1];url.hash='/'+props.initialRoute+(query?'?'+query:'');return url.href})

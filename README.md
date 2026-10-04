@@ -2,7 +2,7 @@
 
 现代化管理扩展：重做管理界面，复用 OpenClash 原生配置与服务逻辑，独立增加节点历史、流量隐私观察和持续加密 DNS。保留原 OpenClash 配置、内核和官方面板；独立安装三个扩展包。
 
-[打开本机页面](http://127.0.0.1:18081/) · [验收记录](docs/development-status.md) · [安装与升级](docs/install-and-upgrade.md)
+[公开仓库](https://github.com/ccawmiku/openclash-modern) · [下载发布包](https://github.com/ccawmiku/openclash-modern/releases) · [验收记录](docs/development-status.md) · [安装与升级](docs/install-and-upgrade.md)
 
 ## 当前实现
 

@@ -49,6 +49,7 @@ start_service() {
   /usr/share/router-privacy/guard.lua disable
  fi
  if [ "$monitor" = 1 ]; then
+  [ ! -w /proc/sys/net/netfilter/nf_conntrack_acct ] || printf 1 >/proc/sys/net/netfilter/nf_conntrack_acct
   config_get lans main lan_interface br-lan
   lans="$(printf '%s' "$lans" | tr ' ' ',')"
   procd_open_instance capture
