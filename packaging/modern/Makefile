@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 PKG_NAME:=luci-app-openclash-modern
 PKG_VERSION:=0.1.0
-PKG_RELEASE:=4
+PKG_RELEASE:=5
 PKG_LICENSE:=GPL-3.0-or-later
 include $(INCLUDE_DIR)/package.mk
 define Package/luci-app-openclash-modern

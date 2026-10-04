@@ -4,10 +4,10 @@ Native observer is x86_64-musl here. Other architectures use privacy/Makefile in
 their matching OpenWrt SDK. No runtime Node, no dashboard fork, no core bundled.
 """
 from pathlib import Path
-import gzip,hashlib,io,json,os,re,subprocess,tarfile,tempfile
+import gzip,hashlib,io,json,os,re,subprocess,tarfile,tempfile,sys
 project=Path(__file__).resolve().parents[1]
 out=project/'artifacts/packages';out.mkdir(parents=True,exist_ok=True)
-version=os.environ.get('RP_PACKAGE_VERSION','0.1.0-4')
+version=os.environ.get('RP_PACKAGE_VERSION','0.1.0-5')
 assert re.fullmatch(r'\d+\.\d+\.\d+-\d+',version),'Invalid package version'
 def tree(root,prefix=''):
     return [(str(Path(prefix)/p.relative_to(root)),p.read_bytes(),0o755 if p.parent.name=='init.d' or p.name=='guard.lua' else 0o644) for p in sorted(root.rglob('*')) if p.is_file()]
@@ -45,6 +45,10 @@ for target,data,mode in modern:
     path=sdk/'root'/target;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(data);path.chmod(mode)
 (sdk/'Makefile').write_bytes((project/'packaging/modern/Makefile').read_bytes())
 package('luci-app-openclash-modern','all','luci-app-openclash, luci-compat, ruby-yaml',modern)
+if '--legacy-monitors' not in sys.argv:
+    (out/'manifest.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
+    print(json.dumps(report,indent=2))
+    raise SystemExit(0)
 privacy=tree(project/'privacy/root')+tree(project/'privacy/luasrc','usr/lib/lua/luci')
 privacy.append(('usr/sbin/router-privacy-observer',Path('/var/lib/openclash-lab/packet-observer').read_bytes(),0o755))
 package('router-privacy','x86_64','luci-base, luci-compat, https-dns-proxy, ca-bundle, dnsmasq, nftables-json, kmod-nf-conntrack-netlink',privacy,'/etc/config/router_privacy')

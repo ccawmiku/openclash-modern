@@ -5,17 +5,14 @@ import Overview from './views/Overview.vue'
 const Settings = defineAsyncComponent(() => import('./views/Settings.vue'))
 const Logs = defineAsyncComponent(() => import('./views/Logs.vue'))
 const Dashboard = defineAsyncComponent(() => import('./views/Dashboard.vue'))
-const Security = defineAsyncComponent(() => import('./views/Security.vue'))
-const NodeHealth = defineAsyncComponent(() => import('./views/NodeHealth.vue'))
 const ConfigFiles = defineAsyncComponent(() => import('./views/ConfigFiles.vue'))
-const MonitorSettings = defineAsyncComponent(() => import('./views/MonitorSettings.vue'))
-const nav = [ ['overview', '概览', '01'], ['settings', '设置', '02'], ['nodes', '节点策略', '03'], ['health', '节点监控', '04'], ['dashboard', 'Dashboard', '05'], ['security', '隐私监控', '06'], ['files', '配置文件', '07'], ['logs', '运行日志', '08'] ]
+const nav = [ ['overview', '概览', '01'], ['settings', '设置', '02'], ['nodes', '节点策略', '03'], ['dashboard', 'Dashboard', '05'], ['files', '配置文件', '07'], ['logs', '运行日志', '08'] ]
 const localLab=['localhost','127.0.0.1','::1'].includes(location.hostname)
-const allowed=[...nav.map(n=>n[0]),'privacy-settings','node-settings']
+const allowed=nav.map(n=>n[0])
 const route=()=>location.hash.slice(1)
 const page = ref(allowed.includes(route())?route():'overview'), dirty = ref(false)
-const title = computed(() => ({'privacy-settings':'隐私监控设置','node-settings':'节点监控设置'})[page.value]||nav.find(n => n[0] === page.value)?.[1])
-const activePage=computed(()=>({'privacy-settings':'security','node-settings':'health'})[page.value]||page.value)
+const title = computed(() => nav.find(n => n[0] === page.value)?.[1])
+const activePage=computed(()=>page.value)
 function navigate(target) {
   if (dirty.value && !window.confirm('存在未保存的修改，确定离开？')) return
   if(!allowed.includes(target))return
@@ -39,9 +36,6 @@ window.addEventListener('hashchange',syncRoute);onBeforeUnmount(()=>window.remov
       <Settings v-else-if="page === 'settings' || page === 'nodes'" :key="page" :initial-model="page === 'nodes' ? 'servers' : 'settings'" @dirty="dirty = $event" />
       <ConfigFiles v-else-if="page === 'files'" @dirty="dirty = $event" />
       <Dashboard v-else-if="page === 'dashboard'" />
-      <Security v-else-if="page === 'security'" @settings="navigate('privacy-settings')" />
-      <NodeHealth v-else-if="page === 'health'" @settings="navigate('node-settings')" />
-      <MonitorSettings v-else-if="page === 'privacy-settings'||page === 'node-settings'" :key="page" :kind="page==='privacy-settings'?'privacy':'node'" @dirty="dirty=$event" @back="navigate(page==='privacy-settings'?'security':'health')" />
       <Logs v-else-if="page === 'logs'" />
       <footer class="oc-footer">前端独立构建 · 配置逻辑复用 OpenClash <span>扩展版本 0.1</span></footer>
       <details v-if="page === 'overview'" open class="oc-note"><summary>上游项目与贡献者</summary><p><a v-for="name in ['Dreamacro','vernesong','frainzy1477','SukkaW','haishanh','Zephyruso','Alecthw','TindyX','lmc999','immortalwrt','MetaCubeX']" :href="`https://github.com/${name}`" target="_blank" rel="noreferrer" style="display:inline-block;margin:6px 12px 6px 0">{{name}}</a></p><a href="https://github.com/vernesong/OpenClash/graphs/contributors" target="_blank" rel="noreferrer">全部 OpenClash 贡献者 ↗</a></details>
