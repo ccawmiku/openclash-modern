@@ -70,11 +70,18 @@ function M.dns_probe(port)
  local code=answer:byte(4)%16;return code==0 or code==3
 end
 local iplib=require 'luci.ip';local local_prefixes={}
+local address_cache,address_cache_count={},0
 for _,cidr in ipairs({'10.0.0.0/8','172.16.0.0/12','192.168.0.0/16','127.0.0.0/8','169.254.0.0/16','100.64.0.0/10','192.0.2.0/24','198.51.100.0/24','203.0.113.0/24','::1/128','fc00::/7','fe80::/10','2001:db8::/32'})do local_prefixes[#local_prefixes+1]=iplib.new(cidr)end
 local function local_address(address)
- local ip=iplib.new(address);if not ip then return true end
- for _,prefix in ipairs(local_prefixes)do if prefix:contains(ip) then return true end end
- return false
+ if not address then return true end
+ if address_cache[address]~=nil then return address_cache[address] end
+ local ip=iplib.new(address);local result=not ip
+ if ip then for _,prefix in ipairs(local_prefixes)do if prefix:contains(ip)then result=true;break end end end
+ -- Repeated LAN and server addresses dominate large connection tables. Cache
+ -- only address locality, never website geography; keep RAM strictly bounded.
+ if address_cache_count>=4096 then address_cache,address_cache_count={},0 end
+ address_cache[address]=result;address_cache_count=address_cache_count+1
+ return result
 end
 local function watched(domain,list)
  domain=(domain or ''):lower():gsub('%.$',''):gsub(':%d+$','')
