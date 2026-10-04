@@ -1,0 +1,3 @@
+[submodule "upstream/openclash"]
+	path = upstream/openclash
+	url = https://github.com/vernesong/OpenClash.git

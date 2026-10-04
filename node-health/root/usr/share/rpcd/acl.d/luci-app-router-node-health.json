@@ -1,0 +1,1 @@
+{"luci-app-router-node-health":{"description":"Independent node history monitor","read":{"uci":["router_node_health","openclash"]},"write":{"uci":["router_node_health"]}}}

@@ -1,0 +1,631 @@
+{
+  "upstream_tag": "v0.47.156",
+  "upstream_commit": "c3a33c1d3407956fdf8f0e0b7c1a4c52e6ad9593",
+  "note": "Original backend is unmodified. All 15 existing CBI models are available. Route presence and static integration do not prove every update/download/protocol behavior was tested. See development-status.md and artifacts for actual validation.",
+  "routes": [
+    {
+      "route": "client",
+      "type": "form",
+      "handler": "openclash/client",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "conn_status",
+      "type": "call",
+      "handler": "action_conn_status",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "status",
+      "type": "call",
+      "handler": "action_status",
+      "migration": "overview read"
+    },
+    {
+      "route": "startlog",
+      "type": "call",
+      "handler": "action_start",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "refresh_log",
+      "type": "call",
+      "handler": "action_refresh_log",
+      "migration": "replaced by bounded incremental modern_log; original endpoint retained"
+    },
+    {
+      "route": "del_log",
+      "type": "call",
+      "handler": "action_del_log",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "del_start_log",
+      "type": "call",
+      "handler": "action_del_start_log",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "close_all_connection",
+      "type": "call",
+      "handler": "action_close_all_connection",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "reload_firewall",
+      "type": "call",
+      "handler": "action_reload_firewall",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "save_corever_branch",
+      "type": "call",
+      "handler": "action_save_corever_branch",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "update",
+      "type": "call",
+      "handler": "action_update",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "last_version",
+      "type": "call",
+      "handler": "action_last_version",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "opupdate",
+      "type": "call",
+      "handler": "action_opupdate",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "coreupdate",
+      "type": "call",
+      "handler": "action_coreupdate",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "flush_dns_cache",
+      "type": "call",
+      "handler": "action_flush_dns_cache",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "flush_smart_cache",
+      "type": "call",
+      "handler": "action_flush_smart_cache",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "update_config",
+      "type": "call",
+      "handler": "action_update_config",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "download_rule",
+      "type": "call",
+      "handler": "action_download_rule",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "restore",
+      "type": "call",
+      "handler": "action_restore_config",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "backup",
+      "type": "call",
+      "handler": "action_backup",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "backup_ex_core",
+      "type": "call",
+      "handler": "action_backup_ex_core",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "backup_only_core",
+      "type": "call",
+      "handler": "action_backup_only_core",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "backup_only_config",
+      "type": "call",
+      "handler": "action_backup_only_config",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "backup_only_rule",
+      "type": "call",
+      "handler": "action_backup_only_rule",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "backup_only_proxy",
+      "type": "call",
+      "handler": "action_backup_only_proxy",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "remove_all_core",
+      "type": "call",
+      "handler": "action_remove_all_core",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "one_key_update",
+      "type": "call",
+      "handler": "action_one_key_update",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "one_key_update_check",
+      "type": "call",
+      "handler": "action_one_key_update_check",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "switch_mode",
+      "type": "call",
+      "handler": "action_switch_mode",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "op_mode",
+      "type": "call",
+      "handler": "action_op_mode",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "sub_info_get",
+      "type": "call",
+      "handler": "sub_info_get",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "config_name",
+      "type": "call",
+      "handler": "action_config_name",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "switch_config",
+      "type": "call",
+      "handler": "action_switch_config",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "toolbar_show",
+      "type": "call",
+      "handler": "action_toolbar_show",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "toolbar_show_sys",
+      "type": "call",
+      "handler": "action_toolbar_show_sys",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "diag_connection",
+      "type": "call",
+      "handler": "action_diag_connection",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "diag_dns",
+      "type": "call",
+      "handler": "action_diag_dns",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "gen_debug_logs",
+      "type": "call",
+      "handler": "action_gen_debug_logs",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "get_debug_logs",
+      "type": "call",
+      "handler": "action_get_debug_logs",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "log_level",
+      "type": "call",
+      "handler": "action_log_level",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "switch_log",
+      "type": "call",
+      "handler": "action_switch_log",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "rule_mode",
+      "type": "call",
+      "handler": "action_rule_mode",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "switch_rule_mode",
+      "type": "call",
+      "handler": "action_switch_rule_mode",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "switch_run_mode",
+      "type": "call",
+      "handler": "action_switch_run_mode",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "dashboard_type",
+      "type": "call",
+      "handler": "action_dashboard_type",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "switch_dashboard",
+      "type": "call",
+      "handler": "action_switch_dashboard",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "delete_dashboard",
+      "type": "call",
+      "handler": "action_delete_dashboard",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "default_dashboard",
+      "type": "call",
+      "handler": "action_default_dashboard",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "get_run_mode",
+      "type": "call",
+      "handler": "action_get_run_mode",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "create_file",
+      "type": "call",
+      "handler": "create_file",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "rename_file",
+      "type": "call",
+      "handler": "rename_file",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "manual_stream_unlock_test",
+      "type": "call",
+      "handler": "manual_stream_unlock_test",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "all_proxies_stream_test",
+      "type": "call",
+      "handler": "all_proxies_stream_test",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "set_subinfo_url",
+      "type": "call",
+      "handler": "set_subinfo_url",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "check_core",
+      "type": "call",
+      "handler": "action_check_core",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "core_download",
+      "type": "call",
+      "handler": "core_download",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "announcement",
+      "type": "call",
+      "handler": "action_announcement",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "settings",
+      "type": "cbi",
+      "handler": "openclash/settings",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "config-overwrite",
+      "type": "cbi",
+      "handler": "openclash/config-overwrite",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "config-subscribe",
+      "type": "cbi",
+      "handler": "openclash/config-subscribe",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "servers",
+      "type": "cbi",
+      "handler": "openclash/servers",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "other-rules-edit",
+      "type": "cbi",
+      "handler": "openclash/other-rules-edit",
+      "migration": "obsolete upstream route: referenced model file is absent in baseline"
+    },
+    {
+      "route": "custom-dns-edit",
+      "type": "cbi",
+      "handler": "openclash/custom-dns-edit",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "other-file-edit",
+      "type": "cbi",
+      "handler": "openclash/other-file-edit",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "proxy-provider-file-manage",
+      "type": "form",
+      "handler": "openclash/proxy-provider-file-manage",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "rule-providers-file-manage",
+      "type": "form",
+      "handler": "openclash/rule-providers-file-manage",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "config-subscribe-edit",
+      "type": "cbi",
+      "handler": "openclash/config-subscribe-edit",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "servers-config",
+      "type": "cbi",
+      "handler": "openclash/servers-config",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "groups-config",
+      "type": "cbi",
+      "handler": "openclash/groups-config",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "proxy-provider-config",
+      "type": "cbi",
+      "handler": "openclash/proxy-provider-config",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "config",
+      "type": "form",
+      "handler": "openclash/config",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "log",
+      "type": "cbi",
+      "handler": "openclash/log",
+      "migration": "native schema editor"
+    },
+    {
+      "route": "myip_check",
+      "type": "call",
+      "handler": "action_myip_check",
+      "migration": "replaced by explicit HTTPS-only modern_myip"
+    },
+    {
+      "route": "website_check",
+      "type": "call",
+      "handler": "action_website_check",
+      "migration": "modern overview tools with domain validation"
+    },
+    {
+      "route": "version_history",
+      "type": "call",
+      "handler": "action_version_history",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "addr_info",
+      "type": "call",
+      "handler": "action_cdn_info",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "save_github_address_mod",
+      "type": "call",
+      "handler": "action_save_github_address_mod",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "proxy_info",
+      "type": "call",
+      "handler": "action_proxy_info",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "oc_settings",
+      "type": "call",
+      "handler": "action_oc_settings",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "switch_oc_setting",
+      "type": "call",
+      "handler": "action_switch_oc_setting",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "generate_pac",
+      "type": "call",
+      "handler": "action_generate_pac",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "action",
+      "type": "call",
+      "handler": "action_oc_action",
+      "migration": "service control through CSRF-protected wrapper; not started in lab"
+    },
+    {
+      "route": "config_file_list",
+      "type": "call",
+      "handler": "action_config_file_list",
+      "migration": "file list read"
+    },
+    {
+      "route": "config_file_read",
+      "type": "call",
+      "handler": "action_config_file_read",
+      "migration": "file read"
+    },
+    {
+      "route": "config_file_save",
+      "type": "call",
+      "handler": "action_config_file_save",
+      "migration": "CSRF-protected YAML validation and native save wrapper"
+    },
+    {
+      "route": "upload_config",
+      "type": "call",
+      "handler": "action_upload_config",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "add_subscription",
+      "type": "call",
+      "handler": "action_add_subscription",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "subconverter_version",
+      "type": "call",
+      "handler": "action_subconverter_version",
+      "migration": "integrated native operation; see validation report for tested subset"
+    },
+    {
+      "route": "generate_age_key",
+      "type": "call",
+      "handler": "action_generate_age_key",
+      "migration": "POST modern_age; generated secrets do not enter URLs"
+    },
+    {
+      "route": "cal_age_public_key",
+      "type": "call",
+      "handler": "action_cal_age_public_key",
+      "migration": "POST modern_age; real roundtrip tested"
+    },
+    {
+      "route": "add_age_config",
+      "type": "call",
+      "handler": "action_add_age_config",
+      "migration": "POST modern_file_age and subscription CBI detail; tested"
+    },
+    {
+      "route": "upload_overwrite",
+      "type": "call",
+      "handler": "action_upload_overwrite",
+      "migration": "validated POST modern_overwrite; real upload/read/delete tested"
+    },
+    {
+      "route": "overwrite_subscribe_info",
+      "type": "call",
+      "handler": "action_overwrite_subscribe_info",
+      "migration": "modern overwrite editor; native persistence"
+    },
+    {
+      "route": "overwrite_file_list",
+      "type": "call",
+      "handler": "action_overwrite_file_list",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "delete_overwrite_file",
+      "type": "call",
+      "handler": "delete_overwrite_file",
+      "migration": "validated POST modern_overwrite; native deletion"
+    },
+    {
+      "route": "get_subscribe_data",
+      "type": "call",
+      "handler": "action_get_subscribe_data",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "get_subscribe_info_data",
+      "type": "call",
+      "handler": "action_get_subscribe_info_data",
+      "migration": "retained native backend; used by stock helpers or replaced by schema/dashboard behavior"
+    },
+    {
+      "route": "oix_info",
+      "type": "call",
+      "handler": "oix_info",
+      "migration": "excluded by user; original stock implementation retained"
+    },
+    {
+      "route": "oix_checkin",
+      "type": "call",
+      "handler": "oix_checkin",
+      "migration": "excluded by user; original stock implementation retained"
+    },
+    {
+      "route": "oix_logout",
+      "type": "call",
+      "handler": "oix_logout",
+      "migration": "excluded by user; original stock implementation retained"
+    },
+    {
+      "route": "oix_login",
+      "type": "call",
+      "handler": "oix_login",
+      "migration": "excluded by user; original stock implementation retained"
+    },
+    {
+      "route": "oix_login_info_save",
+      "type": "call",
+      "handler": "oix_login_info_save",
+      "migration": "excluded by user; original stock implementation retained"
+    },
+    {
+      "route": "oix_params_sync",
+      "type": "call",
+      "handler": "oix_params_sync",
+      "migration": "excluded by user; original stock implementation retained"
+    },
+    {
+      "route": "oix_params_get",
+      "type": "call",
+      "handler": "oix_params_get",
+      "migration": "excluded by user; original stock implementation retained"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+web/node_modules/
+web/dist/
+artifacts/
+research/
+*.img
+*.img.gz
+*.qcow2
+__pycache__/
+.private/
+*.local.json
+modern/root/www/luci-static/openclash-modern/
+*.pyc

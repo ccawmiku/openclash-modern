@@ -1,0 +1,3 @@
+import {chromium} from '@playwright/test'
+const browser=await chromium.launch({headless:true}),page=await browser.newPage();page.on('pageerror',e=>console.log('pageerror',e.message));page.on('console',m=>console.log('console',m.type(),m.text().slice(0,300)));page.on('response',r=>{if(r.url().includes('Security')||r.url().includes('router_privacy'))console.log(r.status(),r.url())})
+await page.goto('http://127.0.0.1:18081/');await page.locator('nav').getByRole('button',{name:/隐私监控/}).click();await page.waitForTimeout(2500);console.log((await page.locator('.oc-main').innerText()).slice(0,2000));await browser.close()

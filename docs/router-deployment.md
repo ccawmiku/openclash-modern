@@ -1,0 +1,28 @@
+# 路由器部署与迁移
+
+本项目是 OpenClash 的独立管理扩展，不替换 Mihomo、官方 Dashboard、原生配置模型或原生启动脚本。已有设置从设备上的原生 CBI 模型读取，保存仍由原生处理器执行。
+
+## 安装前
+
+- 完整备份 `/etc/config`、`/etc/openclash`、OpenClash 启动脚本和计划任务。备份含订阅和节点秘密，只保存在私有目录，禁止上传到公开仓库。
+- 检查架构、固件、现有 DNS 监听端口及防火墙。x86_64 包针对 OpenWrt 24.10 / musl；其他架构须用匹配 SDK 编译。
+- 安装三个独立包：`luci-app-openclash-modern`、`router-privacy`、`router-node-health`。默认关闭采集和 DNS，先检查页面与字段兼容性。
+- 原生 LuCI 认证、ACL 和 CSRF 验证保持启用。本机免登录桥接不能部署到生产网络。
+
+## 原有设置
+
+扩展安装不写入 `/etc/config/openclash`，不替换原配置、订阅、节点、Provider、GeoIP、核心二进制和 Dashboard。上游版本不具备的功能按能力提示，避免盲目调用新版接口。
+
+DNS 防护使用独立端口：主 DoH 53531、备用 53532、自举 53533、独立解析器默认 53535，避免与常见 https-dns-proxy 的 5053/5054 冲突。
+
+代理运行且 DNS 健康时，LAN 53 请求继续送入原生 dnsmasq → Mihomo，保留 Fake-IP、域名与规则匹配。核心停止或 DNS 失效后，健康路由每两秒检查并原子切换到独立 DoH；切换期间可能存在短暂重试。核心恢复后自动回到原生路径。路由器发往外网的 53 请求重定向到独立解析器，转发的明文 53 被阻断。默认阿里 HTTPS DNS，失败使用腾讯 DNSPod HTTPS DNS；均失败时不回退明文。
+
+## 回退
+
+先将 `router_privacy.main.dns_enabled` 和 `monitor_enabled` 设为 0，提交后重启 `router-privacy`，显式撤销独立 DNS 防火墙。将 `router_node_health.main.enabled` 设为 0 并停止节点服务。删除三个扩展包即可回到原界面；原 OpenClash 包及配置保留。
+
+启用完整抓包时若关闭流量卸载，须记录原始 offload 值，卸载时恢复。不要直接在不停用 DNS 防护的情况下删除包，否则其 fail-closed 规则可能继续保留。
+
+## 监控的实际边界
+
+仅对采集到的证据分类，不将未知流量标为安全。国外 SNI 需同时有 WAN ClientHello 与内核规则/GeoIP 证据；QUIC、ECH、硬件卸载、采集丢包和内核不可用均有覆盖限制。国内外复用 Mihomo，不新增域名分类库。加密 DNS 并不使直连 HTTPS 的普通 SNI 自动隐藏。

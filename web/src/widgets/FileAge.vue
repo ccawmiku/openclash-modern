@@ -1,0 +1,11 @@
+<script setup>
+import {onMounted,ref}from 'vue'
+import {base,token,request,preview}from '../api.js'
+const props=defineProps(['name']),secret=ref(''),publicKey=ref(''),algo=ref('keygen'),busy=ref(false),message=ref('')
+onMounted(async()=>{try{const d=await request('modern_file_age_info',{name:props.name});secret.value=d.secret||'';publicKey.value=d.public||'';algo.value=d.algo||'keygen'}catch(e){message.value=e.message}})
+async function action(operation){if(preview||busy.value)return
+ if(secret.value&&(!/^AGE-SECRET-KEY-[A-Z0-9-]+$/.test(secret.value)||secret.value.length>4096)){message.value='Age 私钥格式不正确';return}
+ if(publicKey.value&&(!/^age[\w-]+$/.test(publicKey.value)||publicKey.value.length>4096)){message.value='Age 公钥格式不正确';return}
+ busy.value=true;try{const r=await fetch(`${base}/${operation==='save'?'modern_file_age':'modern_age'}`,{method:'POST',body:new URLSearchParams({operation,name:props.name,age_secret:secret.value,age_public:publicKey.value,age_algo:algo.value,algo:algo.value,secret:operation==='convert'?secret.value:'',token})});const d=await r.json();if(!r.ok||d.error||d.status==='error')throw Error(d.error||d.message||'操作失败');if(d.secret)secret.value=d.secret;if(d.public)publicKey.value=d.public;message.value=operation==='save'?'配置密钥已保存':'密钥已填入，保存后生效'}catch(e){message.value=e.message}finally{busy.value=false}}
+</script>
+<template><div class="oc-security-config"><h3>本地配置的 Age 密钥</h3><p class="oc-note">对应 {{name}}。用于加载加密配置；私钥留在路由器配置中，请妥善保管。推荐有加密配置时才填写，普通 YAML 留空。</p><label>算法<select v-model="algo"><option value="keygen">标准 Age</option><option value="pq">后量子 Age</option></select><small>选择与配置提供方相同的算法，默认标准 Age。</small></label><label>私钥<input v-model="secret" type="password" autocomplete="off"><small>完整 AGE-SECRET-KEY-…，最多 4096 字符；解密配置时使用。</small></label><label>公钥<input v-model="publicKey"><small>完整 age… 公钥，最多 4096 字符；可交给配置提供方。</small></label><div class="oc-actions"><button :disabled="busy||preview" @click="action('generate')">生成密钥</button><button :disabled="busy||preview||!secret" @click="action('convert')">计算公钥</button><button class="primary" :disabled="busy||preview" @click="action('save')">保存密钥设置</button></div><p role="status">{{message}}</p></div></template>

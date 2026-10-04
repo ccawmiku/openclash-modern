@@ -1,0 +1,5 @@
+local monitor=dofile('/usr/share/router-privacy/monitor.lua')
+local data=monitor.snapshot()
+print(require('luci.jsonc').stringify({metrics=data.metrics,monitor=data.monitor,dns=data.dns,error=data.error}))
+print('direct encrypted resolver probe',monitor.dns_probe(53531))
+print('protected DNS listener probe',monitor.dns_probe(53535))
